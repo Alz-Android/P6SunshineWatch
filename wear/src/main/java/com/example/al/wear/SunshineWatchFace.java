@@ -135,7 +135,7 @@ public class SunshineWatchFace extends CanvasWatchFaceService  {
 
         @Override
         public void onConnected(@Nullable Bundle bundle) {
-
+            Log.d(LOG_TAG, "onConnected: ");
             if (Log.isLoggable(LOG_TAG, Log.DEBUG)) {
                 Log.d(LOG_TAG, "onConnected: " + bundle);
             }
@@ -159,6 +159,8 @@ public class SunshineWatchFace extends CanvasWatchFaceService  {
         @Override
         public void onDataChanged(DataEventBuffer dataEvents) {
 
+            Log.d(LOG_TAG, "onDataChanged: ");
+
             for (DataEvent event : dataEvents) {
                 if (event.getType() == DataEvent.TYPE_CHANGED) {
                     // DataItem changed
@@ -177,6 +179,8 @@ public class SunshineWatchFace extends CanvasWatchFaceService  {
         @Override
         public void onCreate(SurfaceHolder holder) {
             super.onCreate(holder);
+
+            Log.d(LOG_TAG, "onCreate: ");
 
             setWatchFaceStyle(new WatchFaceStyle.Builder(SunshineWatchFace.this)
                     .setCardPeekMode(WatchFaceStyle.PEEK_MODE_VARIABLE)
@@ -201,6 +205,7 @@ public class SunshineWatchFace extends CanvasWatchFaceService  {
                     .addConnectionCallbacks(this)
                     .addOnConnectionFailedListener(this)
                     .build();
+ //           mGoogleApiClient.connect();
         }
 
         @Override
@@ -220,6 +225,8 @@ public class SunshineWatchFace extends CanvasWatchFaceService  {
         @Override
         public void onVisibilityChanged(boolean visible) {
             super.onVisibilityChanged(visible);
+
+            Log.d(LOG_TAG, "onVisibilityChanged: ");
 
             if (visible) {
                 mGoogleApiClient.connect();
@@ -329,6 +336,7 @@ public class SunshineWatchFace extends CanvasWatchFaceService  {
         @Override
         public void onDraw(Canvas canvas, Rect bounds) {
             // Draw the background.
+
             if (isInAmbientMode()) {
                 canvas.drawColor(Color.BLACK);
             } else {
