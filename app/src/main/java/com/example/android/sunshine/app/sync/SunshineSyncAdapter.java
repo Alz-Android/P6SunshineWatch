@@ -418,17 +418,19 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter implements 
 
     private void updateWearable(String weather_id, double min, double max) {
 
+        Log.i(LOG_TAG,  "updateWearable1");
         PutDataMapRequest putDataMapRequest = PutDataMapRequest.create(WEARABLE_DATA_PATH);
         putDataMapRequest.getDataMap().putString(KEY_WEATHER_ID, weather_id);
         putDataMapRequest.getDataMap().putString(KEY_MIN, Utility.formatTemperature(getContext(), min));
         putDataMapRequest.getDataMap().putString(KEY_MAX, Utility.formatTemperature(getContext(), max));
 
         PutDataRequest request = putDataMapRequest.asPutDataRequest();
-
+        Log.i(LOG_TAG,  "updateWearable2");
         Wearable.DataApi.putDataItem(mGoogleApiClient, request)
                 .setResultCallback(new ResultCallback<DataApi.DataItemResult>() {
                     @Override
                     public void onResult(DataApi.DataItemResult dataItemResult) {
+                        Log.i(LOG_TAG,  "onResult");
                         if (dataItemResult.getStatus().isSuccess()) {
                                 Log.i(LOG_TAG, "sent data: " + dataItemResult.getDataItem().getUri());
                         } else {
