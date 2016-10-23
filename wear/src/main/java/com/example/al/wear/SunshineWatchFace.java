@@ -135,17 +135,25 @@ public class SunshineWatchFace extends CanvasWatchFaceService  {
 
         @Override
         public void onConnected(@Nullable Bundle bundle) {
+
+            if (Log.isLoggable(LOG_TAG, Log.DEBUG)) {
+                Log.d(LOG_TAG, "onConnected: " + bundle);
+            }
             Wearable.DataApi.addListener(mGoogleApiClient, this);
         }
 
         @Override
-        public void onConnectionSuspended(int i) {
-
+        public void onConnectionSuspended(int cause) {
+            if (Log.isLoggable(LOG_TAG, Log.DEBUG)) {
+                Log.d(LOG_TAG, "onConnectionSuspended: " + cause);
+            }
         }
 
         @Override
         public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
+            if (Log.isLoggable(LOG_TAG, Log.DEBUG)) {
+                Log.d(LOG_TAG, "onConnectionFailed: " + connectionResult);
+            }
         }
 
         @Override
@@ -188,7 +196,7 @@ public class SunshineWatchFace extends CanvasWatchFaceService  {
             mCalendar = Calendar.getInstance();
 
             //this didn't work
-            mGoogleApiClient = new GoogleApiClient.Builder(getApplicationContext())
+            mGoogleApiClient = new GoogleApiClient.Builder(SunshineWatchFace.this)
                     .addApi(Wearable.API)
                     .addConnectionCallbacks(this)
                     .addOnConnectionFailedListener(this)
@@ -214,6 +222,8 @@ public class SunshineWatchFace extends CanvasWatchFaceService  {
             super.onVisibilityChanged(visible);
 
             if (visible) {
+                mGoogleApiClient.connect();
+
                 registerReceiver();
 
                 // Update time zone in case it changed while we weren't visible.
@@ -221,6 +231,11 @@ public class SunshineWatchFace extends CanvasWatchFaceService  {
                 invalidate();
             } else {
                 unregisterReceiver();
+
+                if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+                    Wearable.DataApi.removeListener(mGoogleApiClient, this);
+                    mGoogleApiClient.disconnect();
+                }
             }
 
             // Whether the timer should be running depends on whether we're visible (as well as
