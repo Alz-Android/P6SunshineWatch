@@ -187,7 +187,8 @@ public class SunshineWatchFace extends CanvasWatchFaceService  {
 
             mCalendar = Calendar.getInstance();
 
-            mGoogleApiClient = new GoogleApiClient.Builder(context)
+            //this didn't work
+            mGoogleApiClient = new GoogleApiClient.Builder(getApplicationContext())
                     .addApi(Wearable.API)
                     .addConnectionCallbacks(this)
                     .addOnConnectionFailedListener(this)
