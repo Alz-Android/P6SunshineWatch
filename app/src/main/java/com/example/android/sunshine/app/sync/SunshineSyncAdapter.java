@@ -99,7 +99,7 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter implements 
     public static final int LOCATION_STATUS_UNKNOWN = 3;
     public static final int LOCATION_STATUS_INVALID = 4;
 
-    GoogleApiClient mGoogleClient;
+    GoogleApiClient mGoogleApiClient;
     private static final String WEARABLE_DATA_PATH = "/wearable_data";
     private static final String KEY_WEATHER_ID = "WeatherId";
     private static final String KEY_MIN = "minTemp";
@@ -123,12 +123,12 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter implements 
     public SunshineSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
 
-        mGoogleClient = new GoogleApiClient.Builder(context)
+        mGoogleApiClient = new GoogleApiClient.Builder(context)
                 .addApi(Wearable.API)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
-        mGoogleClient.connect();
+        mGoogleApiClient.connect();
     }
 
     @Override
@@ -425,7 +425,7 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter implements 
 
         PutDataRequest request = putDataMapRequest.asPutDataRequest();
 
-        Wearable.DataApi.putDataItem(mGoogleClient, request)
+        Wearable.DataApi.putDataItem(mGoogleApiClient, request)
                 .setResultCallback(new ResultCallback<DataApi.DataItemResult>() {
                     @Override
                     public void onResult(DataApi.DataItemResult dataItemResult) {
