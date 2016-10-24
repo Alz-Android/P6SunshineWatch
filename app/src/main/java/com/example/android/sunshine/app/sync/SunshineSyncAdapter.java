@@ -438,7 +438,6 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter implements 
                         }
                     }
                 });
-
     }
 
 
