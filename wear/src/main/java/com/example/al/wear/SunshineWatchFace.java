@@ -21,11 +21,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -52,6 +55,8 @@ import java.lang.ref.WeakReference;
 import java.util.Calendar;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
+
+import static android.R.attr.bitmap;
 
 /**
  * Digital watch face with seconds. In ambient mode, the seconds aren't displayed. On devices with
@@ -124,7 +129,12 @@ public class SunshineWatchFace extends CanvasWatchFaceService  {
         private static final String WEARABLE_DATA_PATH = "/wearable_data";
         private static final String KEY_WEATHER_ID = "WeatherId";
         private static final String KEY_MIN = "minTemp";
-        private static final String KEY_MAX = "maxemp";
+        private static final String KEY_MAX = "maxTemp";
+        private String mWeatherId;
+        private String mMax;
+        private String mMin;
+
+
 
         /**
          * Whether the display supports fewer bits for each color in ambient mode. When true, we
@@ -168,12 +178,14 @@ public class SunshineWatchFace extends CanvasWatchFaceService  {
                     if (item.getUri().getPath().compareTo(WEARABLE_DATA_PATH) == 0) {
                         DataMap dataMap = DataMapItem.fromDataItem(item).getDataMap();
                         Log.i(LOG_TAG, dataMap.getString(KEY_WEATHER_ID));
+                        mWeatherId = dataMap.getString(KEY_WEATHER_ID);
+                        mMin = dataMap.getString(KEY_MIN);
+                        mMax = dataMap.getString(KEY_MAX);
                     }
                 } else if (event.getType() == DataEvent.TYPE_DELETED) {
                     // DataItem deleted
                 }
             }
-
         }
 
         @Override
@@ -353,7 +365,18 @@ public class SunshineWatchFace extends CanvasWatchFaceService  {
                     mCalendar.get(Calendar.MINUTE))
                     : String.format("%d:%02d:%02d", mCalendar.get(Calendar.HOUR),
                     mCalendar.get(Calendar.MINUTE), mCalendar.get(Calendar.SECOND));
+
             canvas.drawText(text, mXOffset, mYOffset, mTextPaint);
+
+            if(mWeatherId!=null) {
+                Resources res = getResources();
+                Paint mPaint = new Paint();
+                Bitmap bitmap = BitmapFactory.decodeResource(res,
+                        WearUtils.getArtResourceForWeatherCondition(Integer.parseInt(mWeatherId)));
+                canvas.drawBitmap(bitmap, 10, 130, mPaint);
+                canvas.drawText(mMin, mXOffset + 140, mYOffset + 80, mTextPaint);
+                canvas.drawText(mMax, mXOffset + 140, mYOffset + 150, mTextPaint);
+            }
         }
 
         /**
