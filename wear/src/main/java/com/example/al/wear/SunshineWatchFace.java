@@ -131,9 +131,8 @@ public class SunshineWatchFace extends CanvasWatchFaceService  {
         private static final String KEY_MIN = "minTemp";
         private static final String KEY_MAX = "maxTemp";
         private String mWeatherId=null;
-        private String mMax=null;
         private String mMin=null;
-
+        private String mMax=null;
 
 
         /**
@@ -354,6 +353,7 @@ public class SunshineWatchFace extends CanvasWatchFaceService  {
             int minPositionY = (int) Math.round(bounds.height()* 0.6);
             int maxPositionX = (int) Math.round(bounds.width()* 0.6);
             int maxPositionY = (int) Math.round(bounds.height()* 0.85);
+            final String DEGREE  = "\u00b0";
 
             // Draw the background.
 
@@ -376,14 +376,14 @@ public class SunshineWatchFace extends CanvasWatchFaceService  {
 
             canvas.drawText(text, mXOffset, mYOffset, mTextPaint);
 
-            if(mWeatherId!=null) {
+            if(mWeatherId!=null && mMin!=null && mMax!=null) {
                 Resources res = getResources();
                 Paint mPaintIcon = new Paint();
                 Bitmap bitmap = BitmapFactory.decodeResource(res,
                         WearUtils.getArtResourceForWeatherCondition(Integer.parseInt(mWeatherId)));
                 canvas.drawBitmap(bitmap, iconPositionX, iconPositionY, mPaintIcon);
-                canvas.drawText(mMin, minPositionX, minPositionY, mTextPaint);
-                canvas.drawText(mMax, maxPositionX, maxPositionY, mTextPaint);
+                canvas.drawText(mMin+DEGREE, minPositionX, minPositionY, mTextPaint);
+                canvas.drawText(mMax+DEGREE, maxPositionX, maxPositionY, mTextPaint);
             }
         }
 
