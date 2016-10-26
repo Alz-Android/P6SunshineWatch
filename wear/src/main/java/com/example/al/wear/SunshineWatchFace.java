@@ -130,9 +130,9 @@ public class SunshineWatchFace extends CanvasWatchFaceService  {
         private static final String KEY_WEATHER_ID = "WeatherId";
         private static final String KEY_MIN = "minTemp";
         private static final String KEY_MAX = "maxTemp";
-        private String mWeatherId;
-        private String mMax;
-        private String mMin;
+        private String mWeatherId=null;
+        private String mMax=null;
+        private String mMin=null;
 
 
 
@@ -347,6 +347,14 @@ public class SunshineWatchFace extends CanvasWatchFaceService  {
 
         @Override
         public void onDraw(Canvas canvas, Rect bounds) {
+
+            int iconPositionX = (int) Math.round(bounds.width()* 0.05);
+            int iconPositionY = (int) Math.round(bounds.height()* 0.4);
+            int minPositionX = (int) Math.round(bounds.width()* 0.6);
+            int minPositionY = (int) Math.round(bounds.height()* 0.6);
+            int maxPositionX = (int) Math.round(bounds.width()* 0.6);
+            int maxPositionY = (int) Math.round(bounds.height()* 0.85);
+
             // Draw the background.
 
             if (isInAmbientMode()) {
@@ -370,12 +378,12 @@ public class SunshineWatchFace extends CanvasWatchFaceService  {
 
             if(mWeatherId!=null) {
                 Resources res = getResources();
-                Paint mPaint = new Paint();
+                Paint mPaintIcon = new Paint();
                 Bitmap bitmap = BitmapFactory.decodeResource(res,
                         WearUtils.getArtResourceForWeatherCondition(Integer.parseInt(mWeatherId)));
-                canvas.drawBitmap(bitmap, 10, 130, mPaint);
-                canvas.drawText(mMin, mXOffset + 140, mYOffset + 80, mTextPaint);
-                canvas.drawText(mMax, mXOffset + 140, mYOffset + 150, mTextPaint);
+                canvas.drawBitmap(bitmap, iconPositionX, iconPositionY, mPaintIcon);
+                canvas.drawText(mMin, minPositionX, minPositionY, mTextPaint);
+                canvas.drawText(mMax, maxPositionX, maxPositionY, mTextPaint);
             }
         }
 
