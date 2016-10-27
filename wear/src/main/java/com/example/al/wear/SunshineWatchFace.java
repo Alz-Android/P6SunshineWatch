@@ -354,8 +354,6 @@ public class SunshineWatchFace extends CanvasWatchFaceService  {
             int maxPositionX = (int) Math.round(bounds.width()* 0.6);
             int maxPositionY = (int) Math.round(bounds.height()* 0.85);
 
-            final String DEGREE  = "\u00b0";
-
             // Draw the background.
 
             if (isInAmbientMode()) {
@@ -383,8 +381,8 @@ public class SunshineWatchFace extends CanvasWatchFaceService  {
                 Bitmap bitmap = BitmapFactory.decodeResource(res,
                         WearUtils.getArtResourceForWeatherCondition(Integer.parseInt(mWeatherId)));
                 canvas.drawBitmap(bitmap, iconPositionX, iconPositionY, mPaintIcon);
-                canvas.drawText(mMin+DEGREE, minPositionX, minPositionY, mTextPaint);
-                canvas.drawText(mMax+DEGREE, maxPositionX, maxPositionY, mTextPaint);
+                canvas.drawText(mMin, minPositionX, minPositionY, mTextPaint);
+                canvas.drawText(mMax, maxPositionX, maxPositionY, mTextPaint);
             }
         }
 
