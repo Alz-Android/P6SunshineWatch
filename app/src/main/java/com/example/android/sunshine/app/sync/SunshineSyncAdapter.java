@@ -103,7 +103,7 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter implements 
     private static final String WEARABLE_DATA_PATH = "/wearable_data";
     private static final String KEY_WEATHER_ID = "WeatherId";
     private static final String KEY_MIN = "minTemp";
-    private static final String KEY_MAX = "maxemp";
+    private static final String KEY_MAX = "maxTemp";
 
     @Override
     public void onConnected(Bundle bundle) {
